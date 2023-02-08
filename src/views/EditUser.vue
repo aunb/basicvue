@@ -1,4 +1,8 @@
 <template>
+<div v-if="isLoading">
+    <PreLoader />
+</div>
+
 <!-- ============================================================== -->
 <!-- Main wrapper - style you can find in pages.scss -->
 <!-- ============================================================== -->
@@ -80,85 +84,101 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body p-5">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">User Name</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">image</th>
-                                        <th scope="col">Edit</th>
-                                        <th scope="col">Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <p v-if="isLoading">Loading...</p>
-                                    <tr v-else v-for="p in users" :key="p.id">
-                                        <td>{{p.id}} </td>
-                                        <td>{{p.name}}</td>
-                                        <td>{{p.email}}</td>
-                                        <td>{{p.image}}</td>
-                                        <td><router-link :to="{ path: '/edit-user/'+p.id}">Edit</router-link></td>
-                                        <td><a href="#" v-on:click="deleteData(p.id)" style="color:red">Delete</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <h3>Edit User Id is : {{$route.params.id}}</h3>
+                            <form class="input-feild" @submit.prevent="handleSubmit">
+                                <input type="hidden" name="_token" value="2DaJkqJmyx0DSJyZ887cap1jWperaJjEWGfkRdio">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="User Name" name="name" v-model="name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" v-model="email" placeholder="Email" name="email" >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="image" v-model="image">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" v-model="password" placeholder="Password" name="password">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary float-right">Update</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
-
+        <!-- footer -->
+        <!-- ============================================================== -->
+     
+        <!-- ============================================================== -->
+        <!-- End footer -->
         <!-- ============================================================== -->
     </div>
     <!-- ============================================================== -->
     <!-- End Page wrapper  -->
     <!-- ============================================================== -->
 </div>
+ 
 </template>
 
 <script>
 import SidebarView from "./common/SideBar.vue"
 import axios from 'axios';
 export default {
-    name: 'ContactUs',
+    name: 'EditUser',
     components: {
         SidebarView
     },
     data() {
         return {
-            users: [],
+            name:"",
+            email:"",
+            password:"",
             isLoading: false
         }
     },
     methods: {
         getPosts() {
+            var user_id= this.$route.params.id;
             this.isLoading = true
-            axios.get('http://127.0.0.1:8000/api/users')
+            axios.get('http://127.0.0.1:8000/api/user/'+user_id)
                 .then(response => response)
                 .then(response => {
-                    this.users = response.data;
+                    this.name = response.data.name;
+                    this.email = response.data.email;
+                    this.password = response.data.password;
                     this.isLoading = false
                 });
-        },
-        deleteData: function (id) {
-          let x = window.confirm("You want to delete the user?");
-          if(x){
-               axios.delete('http://127.0.0.1:8000/api/user/delete/' + id)
-                .then(response => response)
-                .then(response => {
-                    if (response) {
-                        this.getPosts();
-                    }
-
+        }, 
+        handleSubmit() {
+            var user_id= this.$route.params.id;
+            this.isLoading = true;
+            axios.post("http://127.0.0.1:8000/api/user/update/"+user_id, {
+                    name: this.name,
+                    email: this.email,
+                    password: this.password,
+                })
+                .then(() => {
+                    this.$router.push('/about')
+                    this.isLoading = false;
                 });
-          }
         },
     },
     mounted() {

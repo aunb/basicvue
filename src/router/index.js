@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ContactUs from '../views/ContactUs'
+import editUser from '../views/EditUser'
+import NotFound from '../views/NotFound'
 
 const routes = [
   {
@@ -20,7 +22,17 @@ const routes = [
     path: '/Contact-us',
     name: 'Contactus',
     component: ContactUs
-  }
+  },
+  {
+    path: '/edit-user/:id',
+    name: 'editUser',
+    component: editUser
+  },
+  { 
+    path: '/:pathMatch(.*)*', 
+    name: 'NotFound', 
+    component: NotFound 
+  },
 ]
 
 const router = createRouter({

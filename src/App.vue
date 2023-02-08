@@ -7,6 +7,13 @@
   </nav> -->
 
 <router-view />
+        <!-- footer -->
+        <!-- ============================================================== -->
+        <footer class="footer">
+            Powered by People™ ©2022. All Rights Reserved
+        </footer>
+        <!-- ============================================================== -->
+        <!-- End footer -->
 </template>
 
 <style>
