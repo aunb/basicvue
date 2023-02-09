@@ -97,7 +97,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="image" v-model="image">
+                                            <input type="file" class="form-control" name="image" v-on:change="onImageChange">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -115,85 +115,7 @@
             </div>
         </div>
 
-        <!-- View User Modal -->
-        <div class="modal" id="viewUserModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Employee Detail</h4>
-                        <button type="button" class="close modelCloseView" data-dismiss="modal">&times;</button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <div id="viewUserModalBody">
 
-                        </div>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger modelCloseView" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit User Modal -->
-        <div class="modal" id="editUserModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Employee Edit</h4>
-                        <button type="button" class="close modelClose" data-dismiss="modal">&times;</button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                            <strong>Success!</strong>Employee was updated successfully.
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div id="editUserModalBody">
-
-                        </div>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="submitEditUserForm">Update</button>
-                        <button type="button" class="btn btn-danger modelClose" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Delete User Modal -->
-        <div class="modal" id="deleteUserModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Employee Delete</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        <h4>Are you sure want to delete this Employee?</h4>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" id="SubmitDeleteArticleForm">Yes</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
         <!-- ============================================================== -->
@@ -225,21 +147,33 @@ export default {
             isLoading: false,
             name: "",
             email: "",
+            image: '',
             password: "",
         };
     },
     methods: {
+        onImageChange(e){
+                console.log(e.target.files[0]);
+                this.image = e.target.files[0];
+        },
+        
         handleSubmit() {
+            const config = {
+                headers: { 'content-type': 'multipart/form-data' }
+            }
             this.isLoading = true;
-            axios.post("http://127.0.0.1:8000/api/user/create", {
+            axios.post("http://127.0.0.1:8000/api/user/create",{
                     name: this.name,
                     email: this.email,
                     password: this.password,
-                })
+                    image: this.image
+                    },
+                    config
+                )
                 .then(() => {
-                    this.name = "";
-                    this.email = "";
-                    this.password = "";
+                    // this.name = "";
+                    // this.email = "";
+                    // this.password = "";
                     this.isLoading = false;
                 });
         },

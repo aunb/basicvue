@@ -17,12 +17,12 @@
                         <i class="mdi me-2 mdi-account-check"></i><span class="hide-menu">Employees</span></a>
                 </li> -->
                 <li class="sidebar-item">
-                    <router-link  class="sidebar-link waves-effect waves-dark sidebar-link" to="about"
+                    <router-link  class="sidebar-link waves-effect waves-dark sidebar-link" to="/about"
                         aria-expanded="false">
                     <span class="hide-menu">User list </span></router-link >
-                </li>
+                </li>   
                     <li class="sidebar-item">
-                    <router-link  class="sidebar-link waves-effect waves-dark sidebar-link" to="Contact-us"
+                    <router-link  class="sidebar-link waves-effect waves-dark sidebar-link" to="/Contact-us"
                         aria-expanded="false">
                         <span class="hide-menu">Contact Us </span></router-link >
                 </li>

@@ -102,7 +102,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="image" v-model="image">
+                                            <input type="file" class="form-control" name="image" v-on:change="onImageChange">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -151,10 +151,15 @@ export default {
             name:"",
             email:"",
             password:"",
+            image: '',
             isLoading: false
         }
     },
     methods: {
+        onImageChange(e){
+                console.log(e.target.files[0]);
+                this.image = e.target.files[0];
+        },
         getPosts() {
             var user_id= this.$route.params.id;
             this.isLoading = true
@@ -169,12 +174,18 @@ export default {
         }, 
         handleSubmit() {
             var user_id= this.$route.params.id;
+             const config = {
+                headers: { 'content-type': 'multipart/form-data' }
+            }
             this.isLoading = true;
             axios.post("http://127.0.0.1:8000/api/user/update/"+user_id, {
                     name: this.name,
                     email: this.email,
+                    image: this.image,
                     password: this.password,
-                })
+                },
+            config
+            )
                 .then(() => {
                     this.$router.push('/about')
                     this.isLoading = false;

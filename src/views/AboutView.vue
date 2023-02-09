@@ -97,7 +97,7 @@
                                         <td>{{p.id}} </td>
                                         <td>{{p.name}}</td>
                                         <td>{{p.email}}</td>
-                                        <td>{{p.image}}</td>
+                                        <td><img v-bind:src="p.image" style="height:20px;width:20px"/> </td>
                                         <td><router-link :to="{ path: '/edit-user/'+p.id}">Edit</router-link></td>
                                         <td><a href="#" v-on:click="deleteData(p.id)" style="color:red">Delete</a></td>
                                     </tr>
