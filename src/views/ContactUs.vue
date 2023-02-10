@@ -85,7 +85,10 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="User Name" name="name" v-model="name">
+                                            <input type="checkbox" value="aa" name="name[]" v-model="name">ssss
+                                            <input type="checkbox" value="aas" name="name[]" v-model="name">ssss
+                                            <input type="checkbox" value="aab" name="name[]" v-model="name">ssss
+                                            <input type="checkbox" value="aad" name="name[]" v-model="name">ssss
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -145,7 +148,7 @@ export default {
     data() {
         return {
             isLoading: false,
-            name: "",
+            name: [],
             email: "",
             image: '',
             password: "",

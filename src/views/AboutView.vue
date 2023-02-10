@@ -95,7 +95,7 @@
                                     <p v-if="isLoading">Loading...</p>
                                     <tr v-else v-for="p in users" :key="p.id">
                                         <td>{{p.id}} </td>
-                                        <td>{{p.name}}</td>
+                                        <td>{{p.name.split(",")}}</td>
                                         <td>{{p.email}}</td>
                                         <td><img v-bind:src="p.image" style="height:20px;width:20px"/> </td>
                                         <td><router-link :to="{ path: '/edit-user/'+p.id}">Edit</router-link></td>
